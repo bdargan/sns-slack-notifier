@@ -25,6 +25,25 @@ handler = (req, res) ->
     res.writeHead(404)
     res.end('Not Found')
 
+
+log.info "initialize slack connection"
+
+autoReconnect = true # Automatically reconnect after an error response from Slack.
+autoMark = true # Automatically mark each message as read after it is processed.
+
+slack = new Slack(slackToken, autoReconnect, autoMark)
+
+slack.on 'open', ->
+    console.log "Connected to #{slack.team.name} as @#{slack.self.name}"
+
+slack.on 'message', (message) ->
+    console.log message
+
+slack.on 'error', (err) ->
+    console.error "Error", err
+
+slack.login()
+
 log.info "start server"
 
 server = http.createServer(handler)

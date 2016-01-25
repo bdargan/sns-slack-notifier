@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bunyan": "^1.5.1",
-    "coffee-script": "^1.9.3"
+      "bunyan": "^1.5.1",
+      "slack-client": "^1.5.1",
+      "coffee-script": "^1.9.3"
   }
 }
