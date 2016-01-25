@@ -3,8 +3,13 @@ secrets = require './secrets'
 http = require 'http'
 bunyan = require 'bunyan'
 app = require './sns'
+Slack = require 'slack-client'
 
+# Config
 port = process.env.PORT or 3002
+autoReconnect = false                 # Automatically reconnect after an error response from Slack.
+autoMark = true                       # Automatically mark each message as read after it is processed.
+
 
 log = bunyan.createLogger
   name: 'sns-slack-notifier'
@@ -28,10 +33,8 @@ handler = (req, res) ->
 
 log.info "initialize slack connection"
 
-autoReconnect = true # Automatically reconnect after an error response from Slack.
-autoMark = true # Automatically mark each message as read after it is processed.
 
-slack = new Slack(slackToken, autoReconnect, autoMark)
+slack = new Slack(secrets.SLACK_TOKEN, autoReconnect, autoMark)
 
 slack.on 'open', ->
     console.log "Connected to #{slack.team.name} as @#{slack.self.name}"

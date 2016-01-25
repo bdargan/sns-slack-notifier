@@ -1,2 +1,5 @@
 #add your token, move it to ./secrets.coffee
-SLACK_TOKEN='xoxo-asdfsaasd'
+
+module.exports=
+  SLACK_TOKEN : 'xoxo-asdfsaasd'
+
