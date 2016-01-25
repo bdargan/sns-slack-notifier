@@ -1,0 +1,16 @@
+{
+  "name": "sns-slack-notifier",
+  "version": "1.0.0",
+  "description": "sns slack notifier. for regions w/o aws lambda",
+  "main": "index.coffee",
+  "scripts": {
+    "start": "./node_modules/.bin/coffee index.coffee",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.5.1",
+    "coffee-script": "^1.9.3"
+  }
+}
