@@ -22,6 +22,7 @@ log = bunyan.createLogger
 handler = (req, res) ->
   log.info "handler called for #{req.url}"
   if req.url is '/ping'
+    slack.
     res.writeHead(200, {
       'Content-Type': 'text/plain'
     });
@@ -30,22 +31,6 @@ handler = (req, res) ->
     res.writeHead(404)
     res.end('Not Found')
 
-
-log.info "initialize slack connection"
-
-
-slack = new Slack(secrets.SLACK_TOKEN, autoReconnect, autoMark)
-
-slack.on 'open', ->
-    console.log "Connected to #{slack.team.name} as @#{slack.self.name}"
-
-slack.on 'message', (message) ->
-    console.log message
-
-slack.on 'error', (err) ->
-    console.error "Error", err
-
-slack.login()
 
 log.info "start server"
 
