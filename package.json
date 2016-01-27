@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
       "bunyan": "^1.5.1",
+      "request": "^2.67",
+      "lodash": "^4.0",
       "coffee-script": "^1.9.3"
   }
 }

@@ -1,15 +1,19 @@
 'use strict'
+_ = require 'lodash'
 secrets = require './secrets'
 http = require 'http'
 bunyan = require 'bunyan'
 app = require './sns'
-Slack = require 'slack-client'
+request = require 'request'
 
 # Config
 port = process.env.PORT or 3002
 autoReconnect = false                 # Automatically reconnect after an error response from Slack.
 autoMark = true                       # Automatically mark each message as read after it is processed.
-
+slackServiceOpts =
+  method: 'POST'
+  json: true
+  uri: secrets.SLACK_INCOMING_WEB_HOOK
 
 log = bunyan.createLogger
   name: 'sns-slack-notifier'
@@ -22,11 +26,17 @@ log = bunyan.createLogger
 handler = (req, res) ->
   log.info "handler called for #{req.url}"
   if req.url is '/ping'
-    slack.
-    res.writeHead(200, {
-      'Content-Type': 'text/plain'
-    });
-    res.end('Pong')
+    msg = _.cloneDeep(slackServiceOpts)
+    msg.body =  text: 'ping message'
+
+    request(msg, (e, resp, respBody) ->
+      log.info "message sent",e, respBody
+      res.writeHead(resp.statusCode, {
+        'Content-Type': 'text/plain'
+      });
+      res.end('Pong')
+    )
+
   else
     res.writeHead(404)
     res.end('Not Found')
